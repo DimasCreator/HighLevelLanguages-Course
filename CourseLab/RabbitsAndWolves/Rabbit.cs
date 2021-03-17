@@ -16,13 +16,27 @@ namespace RabbitsAndWolves
             if (isLife)
             {
                 base.Move();
-                List<Point> movements = GetPoints();
-                Point newPoint = movements[grid.random.Next(0, movements.Count)];
-                grid.Animals[x, y] = (int)CellType.Empty;
-                x = newPoint.x;
-                y = newPoint.y;
-                grid.Animals[x, y] = (int)CellType.Sheep;
-
+                List<Point> movementsGrass = GetGrassPoints();
+                if (movementsGrass.Count != 0)
+                {
+                    Point newPoint = movementsGrass[grid.random.Next(0, movementsGrass.Count)];
+                    grid.Animals[x, y] = (int)CellType.Empty;
+                    x = newPoint.x;
+                    y = newPoint.y;
+                    grid.Animals[x, y] = (int)CellType.Sheep;
+                }
+                else
+                {
+                    List<Point> movements = GetPoints();
+                    if(movements.Count != 0)
+                    {
+                        Point newPoint = movements[grid.random.Next(0, movements.Count)];
+                        grid.Animals[x, y] = (int)CellType.Empty;
+                        x = newPoint.x;
+                        y = newPoint.y;
+                        grid.Animals[x, y] = (int)CellType.Sheep;
+                    }
+                }
                 Eating();
                 Breeding();
             }
@@ -79,9 +93,35 @@ namespace RabbitsAndWolves
             return pointList;
         }
 
-        private List<Point> GetGrassPoint()
+        private List<Point> GetGrassPoints()
         {
             List<Point> pointList = new List<Point>();
+            int newX;
+            int newY;
+            for (int y = 0; y <= 2; y++)
+            {
+                for (int x = y - 2; x <= 2 - y; x++)
+                {
+                    newX = this.x + x;
+                    newY = this.y + y;
+                    if (newX < 0 || newX >= grid.size || newY < 0 || newY >= grid.size) { continue; }//проверка на нахождение точки в области поля
+                    if (grid.Animals[newX, newY] == (int)CellType.Sheep || grid.Animals[newX, newY] == (int)CellType.Wolf) { continue; }//проверка на отсутствие других ивотных на поле
+                    if(grid.Grow[newX,newY] != (int)CellType.Grass) { continue; }
+                    pointList.Add(new Point(newX, newY));
+                }
+            }
+            for (int y = -1; y >= -2; y--)
+            {
+                for (int x = -2 - y; x <= y + 2; x++)
+                {
+                    newX = this.x + x;
+                    newY = this.y + y;
+                    if (newX < 0 || newX >= grid.size || newY < 0 || newY >= grid.size) { continue; }//проверка на нахождение точки в области поля
+                    if (grid.Animals[newX, newY] == (int)CellType.Sheep || grid.Animals[newX, newY] == (int)CellType.Wolf) { continue; }//проверка на отсутствие других ивотных на поле
+                    if (grid.Grow[newX, newY] != (int)CellType.Grass) { continue; }
+                    pointList.Add(new Point(newX, newY));
+                }
+            }
             return pointList;
         }
     }
