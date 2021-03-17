@@ -5,25 +5,24 @@ namespace RabbitsAndWolves
 {
     class Animal
     {
+        protected Point thisPoint;
         protected int satiety;
         private int maxSatiety;
         protected int lifeTime;
         protected int maxLifeTime;
         protected Grid grid;
-        protected int x;
-        protected int y;
         protected int satietyForBreeding;
         public bool isLife = true;
 
-        public Animal(int maxSatiety, int maxLifeTime, Grid grid, int x, int y, int satietyForBreeding)
+
+        public Animal(int maxSatiety, int maxLifeTime, Grid grid, Point point, int satietyForBreeding)
         {
             this.maxSatiety = maxSatiety;
             satiety = maxSatiety;
             this.maxLifeTime = maxLifeTime;
             lifeTime = maxLifeTime;
             this.grid = grid;
-            this.x = x;
-            this.y = y;
+            thisPoint = point;
             this.satietyForBreeding = satietyForBreeding;
         }
 
@@ -31,7 +30,7 @@ namespace RabbitsAndWolves
         {
             if (satiety == 0 || lifeTime == 0 || !isLife)
             {
-                isLife = false;
+                Dead();
                 return false;
             }
             return true;
@@ -40,7 +39,7 @@ namespace RabbitsAndWolves
         public void Dead()
         {
             isLife = false;
-            grid.Animals[x, y] = (int)CellType.Empty;
+            thisPoint.FreeAnimals();
         }
 
         public virtual void Move()
@@ -54,6 +53,12 @@ namespace RabbitsAndWolves
 
         }
 
+        public bool ReadyBreed()
+        {
+            if (satiety >= satietyForBreeding) { return true; }
+            return false;
+        }
+
         protected virtual void Eating()
         {
             satiety = maxSatiety;
@@ -61,7 +66,7 @@ namespace RabbitsAndWolves
 
         public virtual string GetInformation()
         {
-            return $"x: {x}   y: {y}\tСытость: {satiety}\tОсталось жить: {lifeTime}\n";
+            return $"x: {thisPoint.X}   y: {thisPoint.Y}\tСытость: {satiety}\tОсталось жить: {lifeTime}\n";
         }
     }
 }

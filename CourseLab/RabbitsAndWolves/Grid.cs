@@ -1,39 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace RabbitsAndWolves
 {
     class Grid
     {
-        public int[,] Grow { get; set; }
-        public int[,] Animals { get; set; }
-
+        public Point[,] points { get; private set; }
         List<Animal> animalList;
         int shareOfGrass;
         public int size;
         public int grassCount;
         public Random random;
 
-        public Grid(int size, int sheepCount, int grassCoveragePercent, int maxSatiety, int maxLifeTime, int satietyForBreeding)
+        public Grid(int size, int sheepCount, int wolfCount, int grassCoveragePercent, int maxSatiety, int maxLifeTime, int satietyForBreeding)
         {
-            random = new Random();
-            Grow = new int[size, size];
-            Animals = new int[size, size];
-            shareOfGrass = size * size * grassCoveragePercent / 100;
-            grassCount = 0;
             this.size = size;
-            Planting();
             int x = 0;
             int y = 0;
-            animalList = new List<Animal>();
+            points = new Point[size, size];
+            for (x = 0; x < size; x++)
+            {
+                for (y = 0; y < size; y++)
+                {
+                    points[x, y] = new Point(x, y);
+                }
+            }
+            Searcher.SetMap(points);
+            random = new Random();
+            shareOfGrass = size * size * grassCoveragePercent / 100;
+            grassCount = 0;
+            Planting();
+            animalList = new List<Animal>(sheepCount + wolfCount);
+
             for (int i = 0; i < sheepCount; i++)
             {
                 do
                 {
                     x = random.Next(0, size);
                     y = random.Next(0, size);
-                } while ((CellType)Animals[x, y] == CellType.Sheep);
-                animalList.Add(new Rabbit(maxSatiety, maxLifeTime, this, x, y, satietyForBreeding));
+                } while (points[x, y].IsRabbit || points[x, y].IsWolf);
+                animalList.Add(new Rabbit(maxSatiety, maxLifeTime, this, points[x, y], satietyForBreeding));
+            }
+            for (int i = 0; i < wolfCount; i++)
+            {
+                do
+                {
+                    x = random.Next(0, size);
+                    y = random.Next(0, size);
+                } while (points[x, y].IsRabbit || points[x, y].IsWolf);
+                animalList.Add(new Wolf(maxSatiety, maxLifeTime, this, points[x, y], satietyForBreeding));
             }
         }
 
@@ -43,6 +59,7 @@ namespace RabbitsAndWolves
             Console.ReadKey();
             while (true)
             {
+                Shaffle();
                 Print();
                 foreach (var animal in animalList)
                 {
@@ -62,11 +79,14 @@ namespace RabbitsAndWolves
                     }
                 }
                 Planting();
-                Shaffle();
+                Thread.Sleep(70);
                 Console.ReadKey();
             }
         }
 
+        /// <summary>
+        /// Перемешивает массив животных
+        /// </summary>
         private void Shaffle()
         {
             if (animalList.Count != 0)
@@ -85,6 +105,9 @@ namespace RabbitsAndWolves
             }
         }
 
+        /// <summary>
+        /// Отображает поле на экране
+        /// </summary>
         private void Print()
         {
             Console.Clear();
@@ -95,15 +118,15 @@ namespace RabbitsAndWolves
                 {
                     Console.BackgroundColor = ConsoleColor.DarkGray;
                     symbol = "   ";
-                    if ((CellType)Grow[i, j] == CellType.Grass)
+                    if (points[i, j].IsGrass)
                     {
                         Console.BackgroundColor = ConsoleColor.Green;
                     }
-                    if ((CellType)Animals[i, j] == CellType.Sheep)
+                    if (points[i, j].IsRabbit)
                     {
-                        symbol = " O ";
+                        symbol = " V ";
                     }
-                    else if ((CellType)Animals[i, j] == CellType.Wolf)
+                    else if (points[i, j].IsWolf)
                     {
                         symbol = " @ ";
                     }
@@ -118,8 +141,12 @@ namespace RabbitsAndWolves
             }
         }
 
+        /// <summary>
+        /// Засаживает поле недостающей травой
+        /// </summary>
         private void Planting()
         {
+            if (size * size < shareOfGrass) { shareOfGrass = size * size; }
             int x;
             int y;
             for (; grassCount < shareOfGrass; grassCount++)
@@ -128,17 +155,9 @@ namespace RabbitsAndWolves
                 {
                     x = random.Next(0, size);
                     y = random.Next(0, size);
-                } while ((CellType)Grow[x, y] == CellType.Grass);
-                Grow[x, y] = 1;
+                } while (points[x, y].IsGrass);
+                points[x, y].PlantGrass();
             }
         }
-    }
-
-    public enum CellType
-    {
-        Empty = 0,
-        Grass = 1,
-        Sheep = 1,
-        Wolf = 2
     }
 }
