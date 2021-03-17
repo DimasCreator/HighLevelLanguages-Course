@@ -78,6 +78,7 @@ namespace RabbitsAndWolves
             }
             return pointList;
         }
+
         private List<Point> GetGrassPoint()
         {
             List<Point> pointList = new List<Point>();
