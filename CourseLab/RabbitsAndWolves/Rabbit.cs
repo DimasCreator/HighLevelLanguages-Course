@@ -40,7 +40,7 @@ namespace RabbitsAndWolves
             }
         }
 
-        protected override void Eating()
+        protected override void Eating() 
         {
             if (thisPoint.IsGrass)
             {
@@ -52,10 +52,10 @@ namespace RabbitsAndWolves
 
         protected override void Breeding()
         {
-            List<Point> pointsList = Searcher.GetRabbitsReadyBreedPoint(thisPoint);
+            List<Point> pointsList = Searcher.GetReadyBreedRabbitsPoint(thisPoint);
             if (pointsList.Count != 0)
             {
-
+                Point targetPoint = pointsList[grid.random.Next(0, pointsList.Count)];
             }
         }
 

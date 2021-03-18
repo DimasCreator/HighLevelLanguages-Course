@@ -55,8 +55,6 @@ namespace RabbitsAndWolves
 
         public void Life()
         {
-            Print();
-            Console.ReadKey();
             while (true)
             {
                 Shaffle();
@@ -65,6 +63,9 @@ namespace RabbitsAndWolves
                 {
                     animal.Move();
                 }
+                Console.ReadKey();
+                Print();
+                Console.ReadKey();
                 for (int i = 0; i < animalList.Count;)
                 {
                     if (animalList[i].CanLive())
@@ -74,14 +75,19 @@ namespace RabbitsAndWolves
                     }
                     else
                     {
-                        animalList[i].Dead();
                         animalList.RemoveAt(i);
                     }
                 }
                 Planting();
+                Print();
                 Thread.Sleep(70);
                 Console.ReadKey();
             }
+        }
+
+        public void AddAnimal<T>()
+        {
+
         }
 
         /// <summary>

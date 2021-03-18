@@ -57,6 +57,75 @@ namespace RabbitsAndWolves
         }
 
         /// <summary>
+        /// Ищет свободные клетки на дистанции 1
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public static List<Point> GetFreePointsOne(Point point)
+        {
+            List<Point> pointList = new List<Point>();
+            int newX;
+            int newY;
+            for (int y = 0; y <= 1; y++)
+            {
+                for (int x = y - 1; x <= 1 - y; x++)
+                {
+                    newX = point.X + x;
+                    newY = point.Y + y;
+                    if (newX < 0 || newX >= size || newY < 0 || newY >= size) { continue; }//проверка на нахождение точки в области поля
+                    if (points[newX, newY].IsRabbit || points[newX, newY].IsWolf) { continue; }//проверка на отсутствие других животных на поле
+                    pointList.Add(new Point(newX, newY));
+                }
+            }
+            for (int y = -1; y >= -1; y--)
+            {
+                for (int x = -1 - y; x <= y + 1; x++)
+                {
+                    newX = point.X + x;
+                    newY = point.Y + y;
+                    if (newX < 0 || newX >= size || newY < 0 || newY >= size) { continue; }//проверка на нахождение точки в области поля
+                    if (points[newX, newY].IsRabbit || points[newX, newY].IsWolf) { continue; }//проверка на отсутствие других животных на поле
+                    pointList.Add(new Point(newX, newY));
+                }
+            }
+            return pointList;
+        }
+
+        /// <summary>
+        /// Ищет клетки с кроликами на расстоянии 1
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public static List<Point> GetRabbitPoints(Point point)
+        {
+            List<Point> pointList = new List<Point>();
+            int newX;
+            int newY;
+            for (int y = 0; y <= 1; y++)
+            {
+                for (int x = y - 1; x <= 1 - y; x++)
+                {
+                    newX = point.X + x;
+                    newY = point.Y + y;
+                    if (newX < 0 || newX >= size || newY < 0 || newY >= size) { continue; }//проверка на нахождение точки в области поля
+                    if (points[newX, newY].IsRabbit) { pointList.Add(new Point(newX, newY)); }//проверка на наличие зайца
+                    
+                }
+            }
+            for (int y = -1; y >= -1; y--)
+            {
+                for (int x = -1 - y; x <= y + 1; x++)
+                {
+                    newX = point.X + x;
+                    newY = point.Y + y;
+                    if (newX < 0 || newX >= size || newY < 0 || newY >= size) { continue; }//проверка на нахождение точки в области поля
+                    if (points[newX, newY].IsRabbit) { pointList.Add(new Point(newX, newY)); }//проверка на наличие зайца
+                }
+            }
+            return pointList;
+        }
+
+        /// <summary>
         /// Ищет все клетки с травой на дистанции 2
         /// </summary>
         /// <param name="point"></param>
@@ -74,8 +143,7 @@ namespace RabbitsAndWolves
                     newY = point.Y + y;
                     if (newX < 0 || newX >= size || newY < 0 || newY >= size) { continue; }//проверка на нахождение точки в области поля
                     if (points[newX, newY].IsRabbit || points[newX, newY].IsWolf) { continue; }//проверка на отсутствие других животных на поле
-                    if (!points[newX, newY].IsGrass) { continue; }
-                    pointList.Add(new Point(newX, newY));
+                    if (points[newX, newY].IsGrass) { pointList.Add(new Point(newX, newY)); }
                 }
             }
             for (int y = -1; y >= -2; y--)
@@ -86,8 +154,7 @@ namespace RabbitsAndWolves
                     newY = point.Y + y;
                     if (newX < 0 || newX >= size || newY < 0 || newY >= size) { continue; }//проверка на нахождение точки в области поля
                     if (points[newX, newY].IsRabbit || points[newX, newY].IsWolf) { continue; }//проверка на отсутствие других животных на поле
-                    if (!points[newX, newY].IsGrass) { continue; }
-                    pointList.Add(new Point(newX, newY));
+                    if (points[newX, newY].IsGrass) { pointList.Add(new Point(newX, newY)); }
                 }
             }
             return pointList;
@@ -98,7 +165,7 @@ namespace RabbitsAndWolves
         /// </summary>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static List<Point> GetRabbitsReadyBreedPoint(Point point)
+        public static List<Point> GetReadyBreedRabbitsPoint(Point point)
         {
             List<Point> pointList = new List<Point>();
             int newX;

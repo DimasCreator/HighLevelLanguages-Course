@@ -73,5 +73,14 @@ namespace RabbitsAndWolves
             if (IsGrass) { IsGrass = false; }
             else { throw new Exception("Здесь нет травы"); }
         }
+
+        public void EatRabbit()
+        {
+            if (IsRabbit)
+            {
+                IsRabbit = false;
+                animal.Dead();
+            }
+        }
     }
 }

@@ -29,7 +29,11 @@ namespace RabbitsAndWolves
 
         public bool CanLive()
         {
-            if (satiety == 0 || lifeTime == 0 || !isLife)
+            if (!isLife)
+            {
+                return false;
+            }
+            if (satiety == 0 || lifeTime == 0)
             {
                 Dead();
                 return false;
@@ -52,7 +56,7 @@ namespace RabbitsAndWolves
 
         protected virtual void Breeding()
         {
-            isReadyBreed = false;
+
         }
 
         public bool ReadyBreed()
