@@ -8,7 +8,7 @@ namespace Lab1
     {
         static void Main(string[] args)
         {
-            //TODO:обработка TextLabaLHL
+            //TODO: обработка TextLabaLHL
             string[] lines = File.ReadAllLines("random.txt");
             Sorter.LenghtSort(lines);
             Array.Sort(lines);
