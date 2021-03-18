@@ -56,7 +56,7 @@ namespace RabbitsAndWolves
             if (pointsList.Count != 0)
             {
                 isReadyBreed = false;
-                satiety = satietyForBreeding - 2;
+                satiety = satietyForBreeding - 1;
                 Point targetPoint = pointsList[grid.random.Next(0, pointsList.Count)];
                 targetPoint.GetRabbit().Breed();
             }
@@ -68,7 +68,7 @@ namespace RabbitsAndWolves
             if(pointsList.Count != 0)
             {
                 isReadyBreed = false;
-                satiety = satietyForBreeding - 2;
+                satiety = satietyForBreeding - 1;
                 grid.AddAnimal(new Rabbit(satietyForBreeding - 1, maxSatiety, maxLifeTime, grid, pointsList[grid.random.Next(0, pointsList.Count)], satietyForBreeding));
             }
         }

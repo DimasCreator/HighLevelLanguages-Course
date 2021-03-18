@@ -90,7 +90,6 @@ namespace RabbitsAndWolves
         /// <summary>
         /// Добавляет в систему новое животное в переданную точку
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="point"></param>
         public void AddAnimal(Animal animal)
         {

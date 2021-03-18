@@ -7,22 +7,31 @@ namespace RabbitsAndWolves
     {
         static void Main(string[] args)
         {
-            //int size = GetData("Введите размер квадратного поля");
-            //int sheepCount = GetData("Введите количество овец");
-            //int wolfCount = GetData("Введите количество волков");
-            //int grassCoveragePercent = GetData("Введите процент травы");
-            //int maxSatiety = GetData("Введите максимальную сытость");
-            //int maxLifeTime = GetData("Введите максимальное время жизни");
-            //int satietyForBreeding = GetData("Введите необходимое количество сытости для размножения");
-            //Grid lifeGrid = new Grid(size, sheepCount, wolfCount, grassCoveragePercent, maxSatiety, maxLifeTime, satietyForBreeding);
-            Grid lifeGrid = new Grid(10, 10, 10, 50, 10, 1000, 7);
+            int size = GetIntData("Введите размер квадратного поля");
+            int sheepCount = GetIntData("Введите количество кроликов");
+            int wolfCount = GetIntData("Введите количество волков");
+            int grassCoveragePercent = GetIntData("Введите процент травы");
+            int maxSatiety = GetIntData("Введите максимальную сытость");
+            int maxLifeTime = GetIntData("Введите максимальное время жизни");
+            int satietyForBreeding = GetIntData("Введите необходимое количество сытости для размножения");
+            Grid lifeGrid = new Grid(size, sheepCount, wolfCount, grassCoveragePercent, maxSatiety, maxLifeTime, satietyForBreeding);
             lifeGrid.Life();
         }
 
-        static int GetData(string message)
+        static int GetIntData(string message)
         {
             Console.WriteLine(message);
-            return Convert.ToInt32(Console.ReadLine());
+            int num;
+            string input = Console.ReadLine();
+            while(!int.TryParse(input, out num))
+            {
+                Console.Clear();
+                Console.WriteLine("Некорректный ввод");
+                Console.WriteLine(message);
+                input = Console.ReadLine();
+            }
+            Console.Clear();
+            return num;
         }
     }
 }
