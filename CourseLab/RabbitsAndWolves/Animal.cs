@@ -13,6 +13,7 @@ namespace RabbitsAndWolves
         protected Grid grid;
         protected int satietyForBreeding;
         public bool isLife = true;
+        public bool isReadyBreed = true;
 
 
         public Animal(int maxSatiety, int maxLifeTime, Grid grid, Point point, int satietyForBreeding)
@@ -44,13 +45,14 @@ namespace RabbitsAndWolves
 
         public virtual void Move()
         {
+            isReadyBreed = true;
             satiety--;
             lifeTime--;
         }
 
         protected virtual void Breeding()
         {
-
+            isReadyBreed = false;
         }
 
         public bool ReadyBreed()

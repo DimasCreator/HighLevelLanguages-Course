@@ -11,12 +11,21 @@ namespace RabbitsAndWolves
         private static Point[,] points;
         private static int size;
 
+        /// <summary>
+        /// Устанавливает массив точек, в котором будет производить поиск
+        /// </summary>
+        /// <param name="_points"></param>
         public static void SetMap(Point[,] _points)
         {
             points = _points;
             size = points.GetLength(0);
         }
 
+        /// <summary>
+        /// Ищет все свободные клетки на дистанции 2
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
         public static List<Point> GetFreePoints(Point point)
         {
             List<Point> pointList = new List<Point>();
@@ -47,6 +56,11 @@ namespace RabbitsAndWolves
             return pointList;
         }
 
+        /// <summary>
+        /// Ищет все клетки с травой на дистанции 2
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
         public static List<Point> GetGrassPoints(Point point)
         {
             List<Point> pointList = new List<Point>();
@@ -79,6 +93,11 @@ namespace RabbitsAndWolves
             return pointList;
         }
 
+        /// <summary>
+        /// Ищет всех готовых размножаться кроликов на дистанции 1
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
         public static List<Point> GetRabbitsReadyBreedPoint(Point point)
         {
             List<Point> pointList = new List<Point>();
