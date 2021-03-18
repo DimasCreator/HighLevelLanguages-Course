@@ -5,8 +5,8 @@ namespace RabbitsAndWolves
 {
     class Rabbit : Animal
     {
-        public Rabbit(int maxSatiety, int maxLifeTime, Grid grid, Point point, int satietyForBreeding) :
-            base(maxSatiety, maxLifeTime, grid, point, satietyForBreeding)
+        public Rabbit(int satiety, int maxSatiety, int maxLifeTime, Grid grid, Point point, int satietyForBreeding) :
+            base(satiety, maxSatiety, maxLifeTime, grid, point, satietyForBreeding)
         {
             thisPoint.SetRabbit(this);
         }
@@ -55,7 +55,21 @@ namespace RabbitsAndWolves
             List<Point> pointsList = Searcher.GetReadyBreedRabbitsPoint(thisPoint);
             if (pointsList.Count != 0)
             {
+                isReadyBreed = false;
+                satiety = satietyForBreeding - 2;
                 Point targetPoint = pointsList[grid.random.Next(0, pointsList.Count)];
+                targetPoint.GetRabbit().Breed();
+            }
+        }
+
+        public void Breed()
+        {
+            List<Point> pointsList = Searcher.GetFreePointsOne(thisPoint);
+            if(pointsList.Count != 0)
+            {
+                isReadyBreed = false;
+                satiety = satietyForBreeding - 2;
+                grid.AddAnimal(new Rabbit(satietyForBreeding - 1, maxSatiety, maxLifeTime, grid, pointsList[grid.random.Next(0, pointsList.Count)], satietyForBreeding));
             }
         }
 

@@ -7,7 +7,7 @@ namespace RabbitsAndWolves
     {
         protected Point thisPoint;
         protected int satiety;
-        private int maxSatiety;
+        protected int maxSatiety;
         protected int lifeTime;
         protected int maxLifeTime;
         protected Grid grid;
@@ -16,10 +16,10 @@ namespace RabbitsAndWolves
         public bool isReadyBreed = true;
 
 
-        public Animal(int maxSatiety, int maxLifeTime, Grid grid, Point point, int satietyForBreeding)
+        public Animal(int satiety, int maxSatiety, int maxLifeTime, Grid grid, Point point, int satietyForBreeding)
         {
             this.maxSatiety = maxSatiety;
-            satiety = maxSatiety;
+            this.satiety = satiety;
             this.maxLifeTime = maxLifeTime;
             lifeTime = maxLifeTime;
             this.grid = grid;
@@ -49,7 +49,10 @@ namespace RabbitsAndWolves
 
         public virtual void Move()
         {
-            isReadyBreed = true;
+            if(satiety >= satietyForBreeding)
+            {
+                isReadyBreed = true;
+            }
             satiety--;
             lifeTime--;
         }
@@ -72,7 +75,7 @@ namespace RabbitsAndWolves
 
         public virtual string GetInformation()
         {
-            return $"x: {thisPoint.X}   y: {thisPoint.Y}\tСытость: {satiety}\tОсталось жить: {lifeTime}\n";
+            return $"x: {thisPoint.X}   y: {thisPoint.Y}\tСытость: {satiety}\tОсталось жить: {lifeTime}\t{isLife}\n";
         }
     }
 }

@@ -15,7 +15,7 @@ namespace RabbitsAndWolves
             //int maxLifeTime = GetData("Введите максимальное время жизни");
             //int satietyForBreeding = GetData("Введите необходимое количество сытости для размножения");
             //Grid lifeGrid = new Grid(size, sheepCount, wolfCount, grassCoveragePercent, maxSatiety, maxLifeTime, satietyForBreeding);
-            Grid lifeGrid = new Grid(10, 20, 10, 30, 1000, 1000, 7);
+            Grid lifeGrid = new Grid(10, 10, 10, 50, 10, 1000, 7);
             lifeGrid.Life();
         }
 

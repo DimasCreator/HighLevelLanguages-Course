@@ -12,9 +12,15 @@ namespace RabbitsAndWolves
         public int size;
         public int grassCount;
         public Random random;
+        int maxSatiety;
+        int maxLifeTime;
+        int satietyForBreeding;
 
         public Grid(int size, int sheepCount, int wolfCount, int grassCoveragePercent, int maxSatiety, int maxLifeTime, int satietyForBreeding)
         {
+            this.maxLifeTime = maxLifeTime;
+            this.maxSatiety = maxSatiety;
+            this.satietyForBreeding = satietyForBreeding;
             this.size = size;
             int x = 0;
             int y = 0;
@@ -40,7 +46,7 @@ namespace RabbitsAndWolves
                     x = random.Next(0, size);
                     y = random.Next(0, size);
                 } while (points[x, y].IsRabbit || points[x, y].IsWolf);
-                animalList.Add(new Rabbit(maxSatiety, maxLifeTime, this, points[x, y], satietyForBreeding));
+                animalList.Add(new Rabbit(maxSatiety, maxSatiety, maxLifeTime, this, points[x, y], satietyForBreeding));
             }
             for (int i = 0; i < wolfCount; i++)
             {
@@ -49,7 +55,7 @@ namespace RabbitsAndWolves
                     x = random.Next(0, size);
                     y = random.Next(0, size);
                 } while (points[x, y].IsRabbit || points[x, y].IsWolf);
-                animalList.Add(new Wolf(maxSatiety, maxLifeTime, this, points[x, y], satietyForBreeding));
+                animalList.Add(new Wolf(maxSatiety, maxSatiety, maxLifeTime, this, points[x, y], satietyForBreeding));
             }
         }
 
@@ -59,13 +65,11 @@ namespace RabbitsAndWolves
             {
                 Shaffle();
                 Print();
-                foreach (var animal in animalList)
+                Console.ReadKey();
+                for(int i = 0; i < animalList.Count; i++)
                 {
-                    animal.Move();
+                    animalList[i].Move();
                 }
-                Console.ReadKey();
-                Print();
-                Console.ReadKey();
                 for (int i = 0; i < animalList.Count;)
                 {
                     if (animalList[i].CanLive())
@@ -79,15 +83,18 @@ namespace RabbitsAndWolves
                     }
                 }
                 Planting();
-                Print();
                 Thread.Sleep(70);
-                Console.ReadKey();
+                
             }
         }
-
-        public void AddAnimal<T>()
+        /// <summary>
+        /// Добавляет в систему новое животное в переданную точку
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="point"></param>
+        public void AddAnimal(Animal animal)
         {
-
+            animalList.Add(animal);
         }
 
         /// <summary>

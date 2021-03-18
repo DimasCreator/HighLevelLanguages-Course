@@ -5,8 +5,8 @@ namespace RabbitsAndWolves
 {
     class Wolf : Animal
     {
-        public Wolf(int maxSatiety, int maxLifeTime, Grid grid, Point point, int satietyForBreeding) :
-            base(maxSatiety, maxLifeTime, grid, point, satietyForBreeding)
+        public Wolf(int satiety, int maxSatiety, int maxLifeTime, Grid grid, Point point, int satietyForBreeding) :
+            base(satiety, maxSatiety, maxLifeTime, grid, point, satietyForBreeding)
         {
             thisPoint.SetWolf(this);
         }
@@ -51,7 +51,25 @@ namespace RabbitsAndWolves
 
         protected override void Breeding()
         {
+            List<Point> pointsList = Searcher.GetReadyBreedWolvesPoint(thisPoint);
+            if (pointsList.Count != 0)
+            {
+                isReadyBreed = false;
+                satiety = satietyForBreeding - 2;
+                Point targetPoint = pointsList[grid.random.Next(0, pointsList.Count)];
+                targetPoint.GetWolf().Breed();
+            }
+        }
 
+        public void Breed()
+        {
+            List<Point> pointsList = Searcher.GetFreePointsOne(thisPoint);
+            if (pointsList.Count != 0)
+            {
+                isReadyBreed = false;
+                satiety = satietyForBreeding - 2;
+                grid.AddAnimal(new Wolf(satietyForBreeding - 1, maxSatiety, maxLifeTime, grid, pointsList[grid.random.Next(0, pointsList.Count)], satietyForBreeding));
+            }
         }
 
 
