@@ -88,9 +88,9 @@ namespace RabbitsAndWolves
             }
         }
         /// <summary>
-        /// Добавляет в систему новое животное в переданную точку
+        /// Добавляет в систему новое животное
         /// </summary>
-        /// <param name="point"></param>
+        /// <param name="animal"></param>
         public void AddAnimal(Animal animal)
         {
             animalList.Add(animal);
